@@ -8,6 +8,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Addtask from "../Pages/Dashboard/Addtask/Addtask";
 import Task from "../Pages/Dashboard/Task/Task";
 import Private from "./Private";
+import ContactUs from "../Pages/ContactUs/ContactUs";
+import Edit from "../Pages/Dashboard/Task/Edit";
 
 const mycreatedroute =createBrowserRouter([
     {
@@ -28,6 +30,10 @@ const mycreatedroute =createBrowserRouter([
 
             },
             {
+            path:"/contact",
+            element:<ContactUs></ContactUs>
+            },
+            {
                 path:"/dashboard",
                 element:<Private><Dashboard></Dashboard></Private>,
                 children:[
@@ -38,6 +44,11 @@ const mycreatedroute =createBrowserRouter([
                     {
                         path:"task",
                         element:<Task></Task>
+                    },
+                    {
+                        path:"edit/:id",
+                        loader:({params})=>fetch(`https://scic-task-server-six.vercel.app/${params.id}`),
+                        element:<Edit></Edit>
                     }
                 ]
             }

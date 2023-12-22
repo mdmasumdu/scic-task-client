@@ -2,14 +2,28 @@ import { useForm} from "react-hook-form"
 import img from "../../assets/4934425-removebg-preview.png"
 import img1 from "../../assets/Google-logo.png"
 import useAuth from "../../Components/Hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
-
+  const navigate =useNavigate()
   const {googlelogin,registera,updateprofilea}=useAuth();
 
   const handlegoogle=()=>{
+    
     googlelogin()
-    .then(res=>console.log(res.user))
+    .then(res=>{
+      if(res.user){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "succesfully loged in",
+          showConfirmButton: true,
+          timer: 1500
+        });
+        navigate("/")
+      }
+    })
     .catch(err=>console.log(err))
 
   }
@@ -28,10 +42,29 @@ const Register = () => {
         
           if(res.user){
             updateprofilea(data.name,data.photourl)
+            .then(()=>{})
+            .catch(()=>{})
             console.log(res.user)
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Succesfully registerd login now",
+              showConfirmButton: true,
+              timer: 1500
+            });
+
+            navigate("/login")
           }
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title:`${err.message}` ,
+            showConfirmButton: true,
+            timer: 1500
+          });
+        })
 
 
       }

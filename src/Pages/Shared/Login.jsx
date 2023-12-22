@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
 import img1 from "../../assets/Google-logo.png"
 import { useForm} from "react-hook-form"
+import Swal from "sweetalert2";
 
 
 const Login = () => {
@@ -19,6 +20,13 @@ const Login = () => {
     login(data.email,data.password)
     .then(res=>{
       if(res.user){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "succesfully loged in",
+          showConfirmButton: true,
+          timer: 1500
+        });
         location.state ? navigate(`${location?.state}`) : navigate("/");
       }
     })
@@ -30,6 +38,13 @@ const Login = () => {
     googlelogin()
     .then(res=>{
       if(res?.user){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "succesfully loged in",
+          showConfirmButton: true,
+          timer: 1500
+        });
           location.state ? navigate(`${location?.state}`) : navigate("/");
       }
     })
@@ -41,7 +56,7 @@ const Login = () => {
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+            <p className="py-6">A task management website is a digital platform that helps users organize, assign, and track tasks efficiently. With features like to-do lists and calendars, it streamlines project management, promotes collaboration, and enhances productivity by providing a centralized hub for task-related activities.</p>
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">

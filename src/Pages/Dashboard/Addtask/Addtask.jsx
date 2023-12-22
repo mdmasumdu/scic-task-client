@@ -1,7 +1,12 @@
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import useAuth from "../../../Components/Hooks/useAuth";
 
 
 const Addtask = () => {
+  const {user}=useAuth();
+  const axiosSecure =useAxiosSecure();
 
     const {
         register,
@@ -10,13 +15,27 @@ const Addtask = () => {
 
       const onSubmit = (data) =>{
         const taskinfo ={
+          email:user?.email,
           title:data.title,
-          status:data.status,
+          status:"todo",
           deadline:data.deadline,
-          description:data.description
+          description:data.description,
+          priority:data.priority
 
         }
-
+        axiosSecure.post("/tasks",taskinfo)
+        .then(res=>{
+          if(res.data.insertedId){
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your task has been added",
+              showConfirmButton: true,
+              timer: 1500
+            });
+          }
+        })
+      
 
         console.log(taskinfo)
 
@@ -31,18 +50,19 @@ const Addtask = () => {
           <label className="label">
             <span className="label-text">Title</span>
           </label>
-          <input type="text" placeholder="name" {...register('title')} className="input input-bordered" required />
+          <input type="text" placeholder="task title" {...register('title')} className="input input-bordered" required />
         </div>
 
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Status</span>
+            <span className="label-text">Priority</span>
           </label>
-          <select className=" p-1 border" {...register("status")}>
-        <option value="To DO">To DO</option>
-        <option value="Ongoing">Ongoing</option>
-        <option value="Complted">Completed</option>
-      </select>
+          <select {...register("priority")} className="select select-bordered ">
+  <option  disabled selected>Select Priority</option>
+  <option value={"Low"}>Low</option>
+  <option value={"Moderate"}>Moderate</option>
+  <option value={"High"}>High</option>
+</select>
         </div>
        
         <div className="form-control">

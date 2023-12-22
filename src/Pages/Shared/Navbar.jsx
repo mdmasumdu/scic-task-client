@@ -8,8 +8,8 @@ const Navbar = () => {
     const links =<>
     <NavLink to={"/"}>Home</NavLink>
  
-    <NavLink to={"/"}>Contact</NavLink>
-    <NavLink to={"/dashboard"}>Let's Explore</NavLink>
+    <NavLink to={"/contact"}>Contact</NavLink>
+    <NavLink to={"/dashboard/task"}>Let's Explore</NavLink>
  
     </>
 
